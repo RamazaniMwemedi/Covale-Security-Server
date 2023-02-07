@@ -10,32 +10,44 @@ mongoose
     console.log("Error connecting to MongoDB: ", err);
   });
 
-//   Key schema
-const keySchema = new mongoose.Schema({
-  key: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  keyType: {
+const topicSchema = mongoose.Schema({
+  title: {
     type: String,
     required: true,
   },
-  keySize: {
-    type: Number,
+  description: {
+    type: String,
     required: true,
   },
-  generatedAt: {
+  messageId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Message",
+  },
+  messages: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Message",
+    },
+  ],
+  files: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "File",
+    },
+  ],
+  teamId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Team",
+    required: true,
+  },
+  createdAt: {
     type: Date,
     default: Date.now,
   },
-  expiresAt: {
-    type: Date,
-    required: true,
-  },
 });
 
-keySchema.set("toJSON", {
+topicSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -43,6 +55,4 @@ keySchema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("Key", keySchema);
-
-// Path: model\key.js
+module.exports = mongoose.model("Topic", topicSchema);
