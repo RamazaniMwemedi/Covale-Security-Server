@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const { MONGODB_URI } = require("../utils/config");
+const { MAIN_SERVER_URI } = require("../utils/config");
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(MAIN_SERVER_URI)
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -13,11 +13,11 @@ mongoose
 //   Key schema
 const keysSchema = new mongoose.Schema({
   privateKey: {
-    type: String,
+    type: Strings,
     required: true,
   },
   publicKey: {
-    type: String,
+    type: Strings,
     required: true,
   },
   generatedAt: {
@@ -26,18 +26,18 @@ const keysSchema = new mongoose.Schema({
     required: true,
   },
   generatedByUserId: {
-    type:mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
   generatedForModel: {
     type: String,
-    enum: ["Message", "TeamMessage"],
-    required:true
+    enum: ["Chat", "Team"],
+    required: true,
   },
-  modelId:{
-    type:mongoose.Schema.Types.ObjectId,
-    required:true
-  }
+  modelId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
 });
 
 keysSchema.set("toJSON", {

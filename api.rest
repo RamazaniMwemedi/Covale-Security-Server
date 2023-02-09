@@ -1,1 +1,16 @@
+POST http://localhost:5006/api/authorization/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "email":"ramazanimwemedi234@gmail.com",
+    "password":"claudine0406@"
+}
+
+###
 POST http://localhost:5006/api/keys HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJhbWF6YW5pIiwiaWQiOiI2M2UzMzZkY2UxNWY1ZTgyZjJmMmZlZTkiLCJpYXQiOjE2NzU4ODI3Mzh9.h89h8mg0xG6VsXzxI3pkSUrOyOAaiqSBPL_irGDjI3E
+
+{
+     "modelName":"Message", "modelId":"63e336dce15f5e82f2f2fee9"
+}

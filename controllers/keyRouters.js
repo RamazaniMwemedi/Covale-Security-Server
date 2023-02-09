@@ -7,4 +7,9 @@ keyRouters.post("/", async (request, response) => {
   await createANewKey(request, response);
 });
 
+// Encrypt a message
+keyRouters.post("/encrypt", async (request, response) => {
+  await encryptAMessage(request, response);
+});
+
 module.exports = keyRouters;

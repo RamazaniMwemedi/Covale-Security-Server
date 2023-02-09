@@ -7,6 +7,7 @@ const { SECRETE } = require("../utils/config");
 authorizationRouter.post("/", async (req, res) => {
   const body = req.body;
 
+  console.log("users :>>>", await User.find({}));
   const user = await User.findOne({ email: body.email });
   const passwordCorrect =
     user === null
@@ -23,7 +24,7 @@ authorizationRouter.post("/", async (req, res) => {
     username: user.username,
     id: user._id,
   };
-
+  console.log(user);
   const secretToken = jwt.sign(userForToken, SECRETE);
 
   res.status(200).json({

@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
-const { MONGODB_URI } = require("../utils/config");
+const { MAIN_SERVER_URI } = require("../utils/config");
 
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log("Error connecting to MongoDB: ", err);
-  });
+mongoose.connect(MAIN_SERVER_URI)
+.then(() => {
+  console.log("Connected to MongoDB");
+})
+.catch((err) => {
+  console.log("Error connecting to MongoDB: ", err);
+});
 const userSchema = mongoose.Schema({
   username: {
     type: String,

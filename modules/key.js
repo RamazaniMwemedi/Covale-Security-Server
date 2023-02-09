@@ -6,19 +6,21 @@ const User = require("../models/user");
 
 const createANewKey = async (request, response) => {
   const { publicKey, privateKey } = await generateKeyPairs();
+  const userId = request.user._id;
+  console.log("Type of keys", typeof publicKey, typeof privateKey);
+  console.log("userId", userId);
+  const { modelName, modelId } = request.body;
 
-  const { userId, modelName, modelId } = request.body;
-
-  let model;
-  if (modelName === "Message") {
-    model = await Message.findById(modelId);
-  } else if (modelName === "TeamMessage") {
-    model = await TeamMessage.findById(modelId);
-  } else {
-    request.status("404").json({
-      message: "This model are  not required",
-    });
-  }
+  // let model;
+  // if (modelName === "Message") {
+  //   model = await Message.findById(modelId);
+  // } else if (modelName === "TeamMessage") {
+  //   model = await TeamMessage.findById(modelId);
+  // } else {
+  //   request.status("404").json({
+  //     message: "This model are  not required",
+  //   });
+  // }
 
   if (!userId) {
     request.status("401").json({
@@ -26,18 +28,18 @@ const createANewKey = async (request, response) => {
     });
   }
 
-  const user = await User.findById(userId);
-  if (user && model) {
+  if (userId) {
     const newKeys = new Keys({
       privateKey,
       publicKey,
-      generatedByUserId: user._id,
+      generatedByUserId: userId,
       generatedForModel: modelName,
-      modelId: model._id,
+      modelId: modelId,
     });
 
     const savedKeys = await newKeys.save();
-
+    // Return the keys cleaded whithout line breakes
+    console.log("savedKeys", savedKeys);
     response.status(201).json(savedKeys);
   }
 };
