@@ -13,11 +13,11 @@ mongoose
 //   Key schema
 const keysSchema = new mongoose.Schema({
   privateKey: {
-    type: Strings,
+    type: String,
     required: true,
   },
   publicKey: {
-    type: Strings,
+    type: String,
     required: true,
   },
   generatedAt: {
