@@ -13,16 +13,16 @@ const createANewKey = async (request, response) => {
   console.log("userId", userId);
   const { modelName, modelId } = request.body;
 
-  // let model;
-  // if (modelName === "Message") {
-  //   model = await Message.findById(modelId);
-  // } else if (modelName === "TeamMessage") {
-  //   model = await TeamMessage.findById(modelId);
-  // } else {
-  //   request.status("404").json({
-  //     message: "This model are  not required",
-  //   });
-  // }
+  let model;
+  if (modelName === "Chat") {
+    model = await Message.findById(modelId);
+  } else if (modelName === "Team") {
+    model = await TeamMessage.findById(modelId);
+  } else {
+    request.status("404").json({
+      message: "This model are  not required",
+    });
+  }
 
   if (!userId) {
     request.status("401").json({
