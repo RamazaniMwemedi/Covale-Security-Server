@@ -14,8 +14,10 @@ const createANewKey = async (request, response) => {
   let model;
   if (modelName === "Chat") {
     model = await Message.findById(modelId);
+    console.log(model);
   } else if (modelName === "Team") {
     model = await TeamMessage.findById(modelId);
+    console.log(model);
   } else {
     request.status("404").json({
       message: "This model are  not required",
@@ -34,7 +36,7 @@ const createANewKey = async (request, response) => {
       publicKey,
       generatedByUserId: userId,
       generatedForModel: modelName,
-      modelId: modelId,
+      modelId: model._id,
     });
 
     const savedKeys = await newKeys.save();
