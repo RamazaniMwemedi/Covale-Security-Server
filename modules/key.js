@@ -3,6 +3,8 @@ const Keys = require("../models/keys");
 const Message = require("../models/message");
 const TeamMessage = require("../models/teamMessage");
 const User = require("../models/user");
+const { privateDecrypt, publicEncrypt } = require("crypto");
+const message = require("../models/message");
 
 const createANewKey = async (request, response) => {
   const { publicKey, privateKey } = await generateKeyPairs();
@@ -46,6 +48,38 @@ const createANewKey = async (request, response) => {
   }
 };
 
+const encryptAMessage = async (publicKey, req, teamId) => {
+  const encryptedMessage = publicEncrypt(
+    publicKey,
+    Buffer.from(req.body.message)
+  );
+  const user = req.user;
+  const newTeamMessage = new TeamMessage({
+    sender: user._id,
+    message: encryptedMessage.toString("base64"),
+    teamRoom: teamId,
+  });
+  const savedTeamMessage = await newTeamMessage.save();
+  return savedTeamMessage;
+};
+
+const decryptAMessage = async (privateKey, teamMessage) => {
+  const decryptedMessage = privateDecrypt(
+    privateKey,
+    Buffer.from(teamMessage.message, "base64")
+  );
+  console.log("decryptedMessage", decryptedMessage.toString("utf8"));
+  const decryptedTeamMessage = {
+    sender: teamMessage.sender,
+    message: decryptedMessage.toString("utf8"),
+    teamRoom: teamMessage.teamRoom,
+  };
+
+  return decryptedTeamMessage;
+};
+
 module.exports = {
   createANewKey,
+  encryptAMessage,
+  decryptAMessage,
 };

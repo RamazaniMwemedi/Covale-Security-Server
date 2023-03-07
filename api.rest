@@ -3,14 +3,14 @@ Content-Type: application/json
 
 {
     "email":"ramazanimwemedi234@gmail.com",
-    "password":"claudine0406@"
+    "password":"ramazani0406@"
 }
 
 ###
-POST http://localhost:5006/api/keys HTTP/1.1
+POST http://localhost:5006/api/v1/test HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJhbWF6YW5pIiwiaWQiOiI2M2UzMzZkY2UxNWY1ZTgyZjJmMmZlZTkiLCJpYXQiOjE2NzU4ODI3Mzh9.h89h8mg0xG6VsXzxI3pkSUrOyOAaiqSBPL_irGDjI3E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJhbWF6YW5pIiwiaWQiOiI2M2ZlMWU2OTUwYmY3ZDg2NDQ3ZTQ2M2YiLCJpYXQiOjE2NzgxNjMwODF9.6CefmBhW9xXjKz_7bhh2sql-ynS836Y-iC2DjdXWD3I
 
 {
-     "modelName":"Message", "modelId":"63e336dce15f5e82f2f2fee9"
+"message": "Dear valued employees, I hope this message finds you all in good health and high spirits. As we move forward in our journey towards achieving our company's vision, I wanted to take a moment to share some thoughts with you. We all know that our company's vision is to become the industry leader in our field, and to be recognized for our innovation, quality, and customer service. Achieving this vision will not be an easy task, but it is one that we can accomplish together through hard work, dedication, and a commitment to excellence. As employees of this company, we are all part of a team that is working towards a common goal. Each and every one of you has an important role to play in making our vision a reality. Whether you are in sales, marketing, operations, or any other department, your contributions are crucial to our success. I urge you to embrace our company's vision and to make it your own. Let it inspire you to work harder, to be more creative, and to push yourself to be the best that you can be. Remember that our success as a company is directly tied to your individual success, and that together, we can achieve great things. In conclusion, I want to thank you for your hard work and dedication thus far. I have no doubt that with your continued efforts, we will be able to achieve our company's vision and become the industry leader that we aspire to be. Let's work together to make it happen! Best regards, [Your name]Whether you are in sales, marketing, operations, or any other department, your contributions are crucial to our success. I urge you to embrace our company's vision and to make it your own. Let it inspire you to work harder, to be more creative, and to push yourself to be the best that you can be. Remember that our success as a company is directly tied to your individual success, and that together, we can achieve great things. In conclusion, I want to thank you for your hard work and dedication thus far. I have no doubt that with your continued effort"
 }
