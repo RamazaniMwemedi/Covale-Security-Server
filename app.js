@@ -20,7 +20,7 @@ app.use(cors());
 app.use(express.static("build"));
 app.use(express.json());
 
-app.use("/api/authorization", authorizationRouter);
+app.use("/api/v1/authorization", authorizationRouter);
 
 app.use(requestLogger);
 // Authorization middleware
@@ -97,6 +97,8 @@ app.use("/api", async (req, res) => {
   const allTeamMessages = await teamMessage.find();
   res.json(allTeamMessages);
 });
+app.use("/api/v1/keys", keyRouters);
+
 // Error middleware
 
 app.use(unknownEndpoint);
