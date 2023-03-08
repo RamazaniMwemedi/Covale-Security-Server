@@ -9,30 +9,24 @@ const message = require("../models/message");
 const createANewKey = async (request, response) => {
   const { publicKey, privateKey } = await generateKeyPairs();
   const userId = request.user._id;
-  console.log("Type of keys", typeof publicKey, typeof privateKey);
-  console.log("userId", userId);
+  if (!userId) {
+    return response.status(401).json({
+      message: "User not found",
+    });
+  }
   const { modelName, modelId } = request.body;
 
-  let model;
+  let model = null;
   if (modelName === "Chat") {
-    model = await Message.findById(modelId);
-    console.log(model);
+    return (model = await Message.findById(modelId));
   } else if (modelName === "Team") {
-    model = await TeamMessage.findById(modelId);
-    console.log(model);
+    return (model = await TeamMessage.findById(modelId));
   } else {
     request.status("404").json({
       message: "This model are  not required",
     });
   }
-
-  if (!userId) {
-    request.status("401").json({
-      message: "User id is not passed",
-    });
-  }
-
-  if (userId) {
+  if (userId && model) {
     const newKeys = new Keys({
       privateKey,
       publicKey,
@@ -45,6 +39,10 @@ const createANewKey = async (request, response) => {
     // Return the keys cleaded whithout line breakes
     console.log("savedKeys", savedKeys);
     response.status(201).json(savedKeys);
+  } else {
+    response.status(404).json({
+      message: "User or model not found",
+    });
   }
 };
 

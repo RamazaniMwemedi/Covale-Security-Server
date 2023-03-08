@@ -7,7 +7,6 @@ const { SECRETE } = require("../utils/config");
 authorizationRouter.post("/", async (req, res) => {
   const body = req.body;
 
-  console.log("users :>>>", await User.find({}));
   const user = await User.findOne({ email: body.email });
   const passwordCorrect =
     user === null

@@ -92,7 +92,7 @@ app.use("/api/v1/test", async (req, res) => {
   }
   main().catch((err) => console.error(err));
 });
-app.use("/api/keys", keyRouters);
+app.use("/api/v1/keys", keyRouters);
 app.use("/api", async (req, res) => {
   const allTeamMessages = await teamMessage.find();
   res.json(allTeamMessages);

@@ -31,7 +31,6 @@ const keysSchema = new mongoose.Schema({
   },
   generatedForModel: {
     type: String,
-    enum: ["Chat", "Team"],
     required: true,
   },
   modelId: {
