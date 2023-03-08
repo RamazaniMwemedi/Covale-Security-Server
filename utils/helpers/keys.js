@@ -2,7 +2,7 @@ const { generateKeyPairSync } = require("node:crypto");
 
 const generateKeyPairs = async () => {
   const { publicKey, privateKey } = generateKeyPairSync("rsa", {
-    modulusLength: 15000,
+    modulusLength: 8400,
     publicKeyEncoding: {
       type: "spki",
       format: "pem",

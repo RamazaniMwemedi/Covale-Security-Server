@@ -46,11 +46,9 @@ const createANewKey = async (request, response) => {
   }
 };
 
-const encryptAMessage = async (publicKey, req, teamId) => {
-  const encryptedMessage = publicEncrypt(
-    publicKey,
-    Buffer.from(req.body.message)
-  );
+const encryptAMessage = async (publicKey, req, message, teamId) => {
+  console.log("Encrypting a message");
+  const encryptedMessage = publicEncrypt(publicKey, message);
   const user = req.user;
   const newTeamMessage = new TeamMessage({
     sender: user._id,
@@ -62,6 +60,7 @@ const encryptAMessage = async (publicKey, req, teamId) => {
 };
 
 const decryptAMessage = async (privateKey, teamMessage) => {
+  console.log("Decrypting a message");
   const decryptedMessage = privateDecrypt(
     privateKey,
     Buffer.from(teamMessage.message, "base64")
