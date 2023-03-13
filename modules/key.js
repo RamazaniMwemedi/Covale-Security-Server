@@ -3,11 +3,28 @@ const Keys = require("../models/keys");
 const Message = require("../models/message");
 const TeamMessage = require("../models/teamMessage");
 const User = require("../models/user");
+const Team = require("../models/team");
+const Chat = require("../models/chat");
 const { privateDecrypt, publicEncrypt } = require("crypto");
-const message = require("../models/message");
+
+const getModels = async (modelName, modelId) => {
+  let model = null;
+  if (modelName === "Chat") {
+    return (model = await Chat.findById(modelId));
+  } else if (modelName === "Team") {
+    return (model = await Team.findById(modelId));
+  } else {
+    request.status("404").json({
+      message: "This model are  not required",
+    });
+  }
+  return model;
+};
 
 const createANewKey = async (request, response) => {
+  console.log("Generating a new key pair");
   const { publicKey, privateKey } = await generateKeyPairs();
+  console.log("Keys are generated");
   const userId = request.user._id;
   if (!userId) {
     return response.status(401).json({
@@ -15,17 +32,12 @@ const createANewKey = async (request, response) => {
     });
   }
   const { modelName, modelId } = request.body;
+  console.log("modelName", modelName);
+  console.log("modelId", modelId);
 
-  let model = null;
-  if (modelName === "Chat") {
-    return (model = await Message.findById(modelId));
-  } else if (modelName === "Team") {
-    return (model = await TeamMessage.findById(modelId));
-  } else {
-    request.status("404").json({
-      message: "This model are  not required",
-    });
-  }
+  let model = await getModels(modelName, modelId);
+  console.log("model", model);
+
   if (userId && model) {
     const newKeys = new Keys({
       privateKey,
@@ -74,9 +86,42 @@ const decryptAMessage = async (privateKey, teamMessage) => {
 
   return decryptedTeamMessage;
 };
+const getAllKeys = async (request, response) => {
+  const user = request.user;
+  // Get all chats and team ids from the user model and use them to get all keys from the keys model and return them to the user
+  const chatsFromUser = await User.findById(user._id).populate("chats");
+  const teamsFromUser = await User.findById(user._id).populate("teams");
 
+  const chatsIdsAndModelNames = chatsFromUser.chats.map((chat) => {
+    return { modelName: "Chat", modelId: chat._id };
+  });
+  const teamsIdsAndModelNames = teamsFromUser.teams.map((team) => {
+    return { modelName: "Team", modelId: team._id };
+  });
+
+  const allKeys = new Array();
+  for (let i = 0; i < chatsIdsAndModelNames.length; i++) {
+    const element = chatsIdsAndModelNames[i];
+    const keys = await Keys.find({
+      generatedForModel: element.modelName,
+      modelId: element.modelId,
+    });
+    allKeys.push(...keys);
+  }
+  for (let i = 0; i < teamsIdsAndModelNames.length; i++) {
+    const element = teamsIdsAndModelNames[i];
+    const keys = await Keys.find({
+      generatedForModel: element.modelName,
+      modelId: element.modelId,
+    });
+    allKeys.push(...keys);
+  }
+  console.log("allKeys", allKeys);
+  response.status(200).json(allKeys);
+};
 module.exports = {
   createANewKey,
   encryptAMessage,
   decryptAMessage,
+  getAllKeys,
 };
