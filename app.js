@@ -17,7 +17,7 @@ const zlib = require("zlib");
 const teamMessage = require("./models/teamMessage");
 app.use(cors());
 
-app.use(express.static("build"));
+app.use(express.static("public"));
 app.use(express.json());
 
 app.use("/api/v1/authorization", authorizationRouter);
