@@ -1,14 +1,25 @@
 require("dotenv").config();
 
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI;
+
+const getDBURI = (envMode) => {
+  switch (envMode) {
+    case "development":
+      return process.env.DEV_MONGODB_URI;
+    case "production":
+      return process.env.DEV_MONGODB_URI;
+
+    case "test":
+      return process.env.DEV_MONGODB_URI;
+    default:
+      return process.env.DEV_MONGODB_URI;
+  }
+};
+const MONGODB_URI = getDBURI(process.env.NODE_ENV);
+
 const SECRETE = process.env.SECRETE;
-const MAIN_SERVER_URI = process.env.MAIN_SERVER_URI;
-console.log("MONGODB_URI: ", MONGODB_URI);
-console.log("MAIN_SERVER_URI: ", MAIN_SERVER_URI);
 module.exports = {
   PORT,
   MONGODB_URI,
   SECRETE,
-  MAIN_SERVER_URI,
 };

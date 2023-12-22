@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const { MAIN_SERVER_URI } = require("../utils/config");
+const { MONGODB_URI } = require("../utils/config");
 
 mongoose
-  .connect(MAIN_SERVER_URI)
+  .connect(MONGODB_URI)
   .then(() => {
     console.log("Connected to MongoDB");
   })
